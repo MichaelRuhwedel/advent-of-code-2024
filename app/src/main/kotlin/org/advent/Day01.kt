@@ -2,11 +2,8 @@ package org.advent
 
 import kotlin.math.abs
 
-class Day01 {
-    fun answer(coords: Pair<List<Int>, List<Int>>): Unit {
-        coords.first.zip(coords.second)
-        { l, r -> abs(l - r) }
-            .reduce { acc, i -> acc + i }
-            .let(::println)
-    }
+val answer01: (Pair<List<Int>, List<Int>>) -> Int = { (ls, rs) ->
+    ls.sorted().zip(rs.sorted())
+    { l, r -> abs(l - r) }
+        .reduce(Int::plus)
 }

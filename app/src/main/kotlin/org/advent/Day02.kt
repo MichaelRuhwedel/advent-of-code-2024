@@ -1,12 +1,16 @@
 package org.advent
 
-import kotlin.math.abs
-
-class Day02 {
-    fun answer(coords: Pair<List<Int>, List<Int>>): Unit {
-        coords.first.zip(coords.second)
-        { l, r -> abs(l - r) }
-            .reduce { acc, i -> acc + i }
-            .let(::println)
-    }
+val answer02: (Pair<List<Int>, List<Int>>) -> Int = { (ls, rs) ->
+    rs
+        .fold(mutableMapOf<Int, Int>())
+        { acc, i ->
+            acc[i] = acc.getOrDefault(i, 0) + 1
+            acc
+        }
+        .let {
+            ls.map { l ->
+                l * it.getOrDefault(l, 0)
+            }
+                .reduce(Int::plus)
+        }
 }
