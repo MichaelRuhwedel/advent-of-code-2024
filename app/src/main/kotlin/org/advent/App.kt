@@ -1,12 +1,7 @@
 package org.advent
 
-class App {
-    val greeting: String
-        get() {
-            return "Hello World!"
-        }
-}
-
 fun main() {
-    Day01()
+    Util()
+        .coords()
+        .apply(Day01()::answer)
 }
