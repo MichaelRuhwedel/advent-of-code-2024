@@ -14,21 +14,24 @@ fun day02(input: String = "02.txt"): List<Long> =
 private fun isSafe(it: List<Int>): Boolean {
     var ascending: Boolean? = null
     for (i in 0 until it.size - 1) {
-        val first = it[i]
-        val second = it[i + 1]
-        if (abs(second - first) > 3) return false
+        val current = it[i]
+        val next = it[i + 1]
+
+        if (abs(next - current) !in 1..3) return false
+
         when {
-            first == second -> return false
-            first < second -> {
-                if (false == ascending)
+            current < next -> {
+                if ( ascending == false)
                     return false
-                else ascending = true
+                else
+                    ascending = true
             }
 
-            first > second -> {
-                if (true == ascending)
+            next < current -> {
+                if (ascending == true)
                     return false
-                else ascending = false
+                else
+                    ascending = false
             }
         }
     }
