@@ -11,27 +11,25 @@ fun day02(input: String = "02.txt"): List<Long> =
             .count()
     )
 
-private fun isSafe(it: List<Int>): Boolean {
+private fun isSafe(list: List<Int>): Boolean {
     var ascending: Boolean? = null
-    for (i in 0 until it.size - 1) {
-        val current = it[i]
-        val next = it[i + 1]
+    return list
+        .windowed(2)
+        .all { (current, next) ->
+            if (abs(next - current) !in 1..3) return false
+            when {
+                current < next ->
+                    if (ascending == false)
+                        return false
+                    else
+                        ascending = true
 
-        if (abs(next - current) !in 1..3) return false
-
-        when {
-            current < next ->
-                if (ascending == false)
-                    return false
-                else
-                    ascending = true
-
-            next < current ->
-                if (ascending == true)
-                    return false
-                else
-                    ascending = false
+                next < current ->
+                    if (ascending == true)
+                        return false
+                    else
+                        ascending = false
+            }
+            true
         }
-    }
-    return true
 }
