@@ -20,19 +20,17 @@ private fun isSafe(it: List<Int>): Boolean {
         if (abs(next - current) !in 1..3) return false
 
         when {
-            current < next -> {
-                if ( ascending == false)
+            current < next ->
+                if (ascending == false)
                     return false
                 else
                     ascending = true
-            }
 
-            next < current -> {
+            next < current ->
                 if (ascending == true)
                     return false
                 else
                     ascending = false
-            }
         }
     }
     return true
