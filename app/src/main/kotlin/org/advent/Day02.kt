@@ -8,8 +8,7 @@ fun day02(input: String = "02.txt"): List<Int> {
         .map { it.split(' ').map(String::toInt) }
         .toList()
     return listOf(
-        lines
-            .count(::isSafe),
+        lines.count(::isSafe),
         lines.count { levels ->
             isSafe(levels) ||
                     (0..levels.size)
@@ -21,25 +20,25 @@ fun day02(input: String = "02.txt"): List<Int> {
 
 private fun isSafe(list: List<Int>): Boolean {
     var ascending: Boolean? = null
-    for (i in 0 until list.size - 1) {
-        val current = list[i]
-        val next = list[i + 1]
+    return list
+        .windowed(2)
+        .all { (current, next) ->
+            if (abs(next - current) !in 1..3)
+                return false
 
-        if (abs(next - current) !in 1..3) return false
+            when {
+                current < next ->
+                    if (ascending == false)
+                        return false
+                    else
+                        ascending = true
 
-        when {
-            current < next ->
-                if (ascending == false)
-                    return false
-                else
-                    ascending = true
-
-            next < current ->
-                if (ascending == true)
-                    return false
-                else
-                    ascending = false
+                next < current ->
+                    if (ascending == true)
+                        return false
+                    else
+                        ascending = false
+            }
+            true
         }
-    }
-    return true
 }
