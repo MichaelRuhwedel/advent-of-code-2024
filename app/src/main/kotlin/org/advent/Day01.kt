@@ -3,29 +3,29 @@ package org.advent
 import kotlin.math.abs
 
 
-fun day01(): Sequence<Int> {
+fun day01(input:String = "01.txt"): List<Int> {
     val splitter = "\\s+".toRegex()
     val left = mutableListOf<Int>()
     val right = mutableListOf<Int>()
 
-    Util.readLines("01.txt")
+    Util.readLines(input)
         .map { it.split(splitter) }
         .forEach { (l, r) ->
             left += l.toInt()
             right += r.toInt()
         }
 
-    return sequenceOf(answer01, answer02)
+    return listOf(answer01, answer02)
         .map { it(left, right) }
 }
 
-val answer01: (Collection<Int>, Collection<Int>) -> Int = { ls, rs ->
+private val answer01: (Collection<Int>, Collection<Int>) -> Int = { ls, rs ->
     ls.sorted().zip(rs.sorted())
     { l, r -> abs(l - r) }
         .reduce(Int::plus)
 }
 
-val answer02: (Collection<Int>, Collection<Int>) -> Int = { ls, rs ->
+private val answer02: (Collection<Int>, Collection<Int>) -> Int = { ls, rs ->
     rs
         .groupingBy { it }.eachCount()
         .let { rightValueToCount ->

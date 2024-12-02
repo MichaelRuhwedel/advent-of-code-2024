@@ -6,10 +6,7 @@ import kotlin.test.assertEquals
 
 class Day02Test {
     @Test
-    fun appHasAGreeting() {
-        Util("01-test.txt")
-            .coords
-            .let(answer02)
-            .let { it: Int -> assertEquals(31, it) }
+    fun day02Test() {
+        assertEquals(listOf(2L), day02("02-test.txt"))
     }
 }

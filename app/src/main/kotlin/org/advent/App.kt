@@ -1,7 +1,7 @@
 package org.advent
 
 fun main() {
-    day01()
+    sequenceOf( day01(), day02() ).flatten()
         .mapIndexed { i, result -> "Day ${pad(i)}: $result" }
         .forEach(::println)
 }
