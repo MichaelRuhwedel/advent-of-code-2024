@@ -17,5 +17,5 @@ class Util(fileName: String) {
 
     }
 
-    val coords = Pair(left, right)
+    val coords = Pair(left.asSequence(), right.asSequence())
 }

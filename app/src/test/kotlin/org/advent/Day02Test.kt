@@ -9,7 +9,7 @@ class Day02Test {
     fun appHasAGreeting() {
         Util("01-test.txt")
             .coords
-            .let(Day02()::answer)
+            .let(answer02)
             .let { it: Int -> assertEquals(31, it) }
     }
 }
