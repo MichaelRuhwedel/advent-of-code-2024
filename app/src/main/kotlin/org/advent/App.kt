@@ -1,13 +1,7 @@
 package org.advent
 
 fun main() {
-    val cs = Util("01.txt").coords
-
-    listOf(
-        answer01,
-        answer02
-    )
-        .map { it(cs) }
+    day01()
         .mapIndexed { i, result -> "Day ${pad(i)}: $result" }
         .forEach(::println)
 }
