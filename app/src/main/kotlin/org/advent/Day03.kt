@@ -17,13 +17,13 @@ var doMul = true
 
 private fun mulSum1(text: String) = text
     .let(mul::findAll)
-    .map { it.destructured }
+    .map(MatchResult::destructured)
     .map { (a, b) -> a.toInt() * b.toInt() }
     .sum()
 
 private fun mulSum2(text: String) = text
     .let(ignore::findAll)
-    .map { it.destructured }
+    .map(MatchResult::destructured)
     .onEach { (all, _, _) ->
         when (all) {
             "don't()" -> doMul = false
