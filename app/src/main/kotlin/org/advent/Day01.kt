@@ -22,14 +22,13 @@ fun day01(input:String = "01.txt"): List<Int> {
 private val answer01: (Collection<Int>, Collection<Int>) -> Int = { ls, rs ->
     ls.sorted().zip(rs.sorted())
     { l, r -> abs(l - r) }
-        .reduce(Int::plus)
+        .sum()
 }
 
 private val answer02: (Collection<Int>, Collection<Int>) -> Int = { ls, rs ->
     rs
         .groupingBy { it }.eachCount()
         .let { rightValueToCount ->
-            ls.map { (rightValueToCount[it] ?: 0) * it }
-                .reduce(Int::plus)
+            ls.sumOf { (rightValueToCount[it] ?: 0) * it }
         }
 }
