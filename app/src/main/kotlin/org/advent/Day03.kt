@@ -2,7 +2,7 @@ package org.advent
 
 
 val mul = """mul\((\d+),(\d+)\)""".toRegex()
-val ignore = """(don't\(\)|${mul}|do\(\))""".toRegex()
+val ignore = """(don't\(\)|$mul|do\(\))""".toRegex()
 
 fun day03(input: String = "03.txt", input2: String = "03.txt"): List<Int> {
     return listOf(
@@ -13,8 +13,6 @@ fun day03(input: String = "03.txt", input2: String = "03.txt"): List<Int> {
     )
 }
 
-var doMul = true
-
 private fun mulSum1(text: String) = text
     .let(mul::findAll)
     .map(MatchResult::destructured)
@@ -24,12 +22,10 @@ private fun mulSum1(text: String) = text
 private fun mulSum2(text: String) = text
     .let(ignore::findAll)
     .map(MatchResult::destructured)
-    .onEach { (all, _, _) ->
+    .fold(true to 0) { (doMul, sum), (all, a, b) ->
         when (all) {
-            "don't()" -> doMul = false
-            "do()" -> doMul = true
+            "don't()" -> false to sum
+            "do()" -> true to sum
+            else -> doMul to if (doMul) sum + a.toInt() * b.toInt() else sum
         }
-    }
-    .filter { (_, a, _) -> doMul && a.isNotEmpty() }
-    .map { (_, a, b) -> a.toInt() * b.toInt() }
-    .sum()
+    }.second
