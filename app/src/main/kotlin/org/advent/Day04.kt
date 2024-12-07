@@ -19,7 +19,7 @@ fun day04(input: String = "04.txt"): List<Int> {
             if (c == xmas.first() || c == xmas.last()) {
                 if (chars.isHorizontal(j, i)) {
                     mark = true
-                    count++;
+                    count++
                 }
                 if (chars.isVertical(i, j)) {
                     mark = true
@@ -42,24 +42,23 @@ fun day04(input: String = "04.txt"): List<Int> {
 }
 
 
-private fun Array<CharArray>.isDiagonal(i: Int, j: Int) = i + wls < size && j + wls < this[i].size &&
-        (0..wls)
-            .map { this[i + it][j + it] }
-            .toList()
-            .let(variations::contains)
+private fun Array<CharArray>.isDiagonal(i: Int, j: Int) =
+    i + wls < size && j + wls < this[i].size &&
+            (0..wls)
+                .map { this[i + it][j + it] }
+                .toList()
+                .let(variations::contains)
 
-private fun Array<CharArray>.isDiagonalL(
-    i: Int,
-    j: Int
-) = i + wls < size && 0 <= j - wls &&
-        (0..wls)
-            .map { this[i + it][j - it] }
-            .toList()
-            .let(variations::contains)
+private fun Array<CharArray>.isDiagonalL(i: Int, j: Int) =
+    i + wls < size && 0 <= j - wls &&
+            (0..wls)
+                .map { this[i + it][j - it] }
+                .toList()
+                .let(variations::contains)
 
 private fun Array<CharArray>.isVertical(i: Int, j: Int) =
     i + wls < size && (i..<i + xmas.size).map { this[it][j] }.toList() in variations
 
 private fun Array<CharArray>.isHorizontal(j: Int, i: Int) =
-    j  <= this[i].size - wordLength &&
+    j <= this[i].size - wordLength &&
             this[i].slice(j..<j + xmas.size) in variations
