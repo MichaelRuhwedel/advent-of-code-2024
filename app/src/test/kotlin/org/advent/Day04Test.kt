@@ -7,6 +7,6 @@ import kotlin.test.assertEquals
 class Day04Test {
     @Test
     fun day04Test() {
-        assertEquals(listOf(18), day04("04-test.txt"))
+        assertEquals(listOf(18,9), day04("04-test.txt"))
     }
 }

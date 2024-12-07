@@ -1,8 +1,6 @@
 package org.advent
 
-import org.jetbrains.kotlinx.multik.api.mk
 import java.io.InputStream
-import java.nio.charset.Charset
 import java.util.stream.Stream
 
 object Util {
