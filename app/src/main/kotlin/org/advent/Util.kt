@@ -1,5 +1,8 @@
 package org.advent
 
+import org.jetbrains.kotlinx.multik.api.mk
+import java.io.InputStream
+import java.nio.charset.Charset
 import java.util.stream.Stream
 
 object Util {
@@ -8,10 +11,14 @@ object Util {
 
     @JvmStatic
     fun readText(fileName: String) = fileName.let(::reader).readText()
+    fun readMatrix(fileName: String): Array<CharArray> = fileName
+    .let(::readLines).toList()
+    .map(String::toCharArray).toTypedArray()
 
     private fun reader(fileName: String) =
-        this::class.java
-            .getResourceAsStream("/$fileName")
-            ?.bufferedReader()
-            ?: throw Exception("Could not load file")
+        inputStream(fileName)
+            .bufferedReader()
+
+    private fun inputStream(fileName: String): InputStream = this::class.java
+        .getResourceAsStream("/$fileName") ?: throw Exception("Could not load file")
 }
