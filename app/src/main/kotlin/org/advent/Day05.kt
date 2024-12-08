@@ -4,9 +4,19 @@ fun day05(input: String = "05.txt"): List<Int> {
     val (rules, updates) = read(input)
     val sum = updates
         .filter { update -> isSafe(update, rules) }
-        .onEach { println(it) }
         .sumOf { update -> update[update.size / 2] }
-    return listOf(sum)
+    val sum2 = updates
+        .filter { update -> !isSafe(update, rules) }
+        .map {
+            it.sortedWith { a, b ->
+                when {
+                    b in rules[a] -> -1
+                    else -> 0
+                }
+            }
+        }
+        .sumOf { update -> update[update.size / 2] }
+    return listOf(sum, sum2)
 }
 
 private fun read(input: String): Pair<MultiMap<Int, Int>, MutableList<List<Int>>> {
@@ -32,13 +42,10 @@ private fun read(input: String): Pair<MultiMap<Int, Int>, MutableList<List<Int>>
 private fun isSafe(update: List<Int>, rules: MultiMap<Int, Int>) = update
     .withIndex()
     .all { (currentIndex, page) ->
-        rules[page]
-            .let { pagesRequiredAfter ->
-                pagesRequiredAfter.all { pageRequiredAfter ->
-                    val indexOf = update.indexOf(pageRequiredAfter)
-                    (indexOf == -1 || (currentIndex < indexOf))
-                }
-            }
+        rules[page].all { pageRequiredAfter ->
+            val indexOf = update.indexOf(pageRequiredAfter)
+            (indexOf == -1 || (currentIndex < indexOf))
+        }
     }
 
 private fun answer01(): String {
