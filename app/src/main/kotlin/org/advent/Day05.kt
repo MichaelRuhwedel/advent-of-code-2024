@@ -17,8 +17,8 @@ private fun read(input: String): Pair<MultiMap<Int, Int>, MutableList<List<Int>>
             when {
                 '|' in l ->
                     l.split('|')
-                        .let { (a, b) ->
-                            rules.put(a.toInt(), b.toInt())
+                        .let { (page, comesAfter) ->
+                            rules[page.toInt()] += comesAfter.toInt()
                         }
 
                 ',' in l ->
@@ -33,9 +33,9 @@ private fun isSafe(update: List<Int>, rules: MultiMap<Int, Int>) = update
     .withIndex()
     .all { (currentIndex, page) ->
         rules[page]
-            .let { pagesRequiredBefore ->
-                pagesRequiredBefore.all { pageRequiredBefore ->
-                    val indexOf = update.indexOf(pageRequiredBefore)
+            .let { pagesRequiredAfter ->
+                pagesRequiredAfter.all { pageRequiredAfter ->
+                    val indexOf = update.indexOf(pageRequiredAfter)
                     (indexOf == -1 || (currentIndex < indexOf))
                 }
             }
@@ -51,15 +51,7 @@ private fun answer02(): String {
 
 class MultiMap<K, V> {
     private val map: MutableMap<K, MutableCollection<V>> = HashMap()
-
-    operator fun get(key: K): Collection<V> {
-        return map[key] ?: hashSetOf()
-    }
-
-    fun put(key: K, value: V) {
-        if (key !in map) {
-            map[key] = HashSet()
-        }
-        map[key]!!.add(value)
+    operator fun get(key: K): MutableCollection<V> {
+        return map.getOrPut(key, ::hashSetOf)
     }
 }
