@@ -7,7 +7,7 @@ private val mas = listOf('M', 'A', 'S')
 private val masVariations = setOf(mas, mas.reversed())
 
 private val wordLength = xmas.size
-private val contunuation = wordLength - 1
+private val continuation = wordLength - 1
 private const val red = "\u001b[31m-\u001B[0m"
 
 fun day04(input: String = "04.txt"): List<Int> {
@@ -64,8 +64,8 @@ private fun answer02(chars: Array<CharArray>): Int {
 
 
 private fun Array<CharArray>.isDiagonalR(i: Int, j: Int) =
-    i + contunuation < size && j + contunuation < this[i].size &&
-            (0..contunuation)
+    i + continuation < size && j + continuation < this[i].size &&
+            (0..continuation)
                 .map { this[i + it][j + it] }
                 .toList()
                 .let(xmasVariations::contains)
@@ -76,14 +76,14 @@ private fun Array<CharArray>.isMas(i: Int, j: Int) =
             listOf(this[i - 1][j + 1], this[i][j], this[i + 1][j - 1]) in masVariations
 
 private fun Array<CharArray>.isDiagonalL(i: Int, j: Int) =
-    i + contunuation < size && 0 <= j - contunuation &&
-            (0..contunuation)
+    i + continuation < size && 0 <= j - continuation &&
+            (0..continuation)
                 .map { this[i + it][j - it] }
                 .toList()
                 .let(xmasVariations::contains)
 
 private fun Array<CharArray>.isVertical(i: Int, j: Int) =
-    i + contunuation < size && (i..<i + xmas.size).map { this[it][j] }.toList() in xmasVariations
+    i + continuation < size && (i..<i + xmas.size).map { this[it][j] }.toList() in xmasVariations
 
 private fun Array<CharArray>.isHorizontal(j: Int, i: Int) =
     j + wordLength <= this[i].size &&
