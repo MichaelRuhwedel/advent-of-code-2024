@@ -12,16 +12,17 @@ fun day06(input: String = "06.txt"): List<Int> {
     var guard = map.findGuard()
     val visited = mutableSetOf<Pair<Int, Int>>()
     while (map.inMap(guard.first)) {
-        val currentPos = guard.first
-        val direction = guard.second
-        currentPos.let { (i, j) ->
+        guard = guard.let { (currentPos, direction: Guard) ->
             visited += currentPos
-            guard = when (direction) {
-                NORTH -> goOrTurn(map, i - 1 to j, currentPos, EAST, direction)
-                SOUTH -> goOrTurn(map, i + 1 to j, currentPos, WEST, direction)
-                WEST -> goOrTurn(map, i to j - 1, currentPos, NORTH, direction)
-                EAST -> goOrTurn(map, i to j + 1, currentPos, SOUTH, direction)
-            }
+            currentPos
+                .let { (i, j) ->
+                    when (direction) {
+                        NORTH -> goOrTurn(map, i - 1 to j, currentPos, EAST, direction)
+                        SOUTH -> goOrTurn(map, i + 1 to j, currentPos, WEST, direction)
+                        WEST -> goOrTurn(map, i to j - 1, currentPos, NORTH, direction)
+                        EAST -> goOrTurn(map, i to j + 1, currentPos, SOUTH, direction)
+                    }
+                }
         }
 //        map.forEachIndexed { i, row ->
 //            row.forEachIndexed { j, c ->
@@ -37,7 +38,8 @@ fun day06(input: String = "06.txt"): List<Int> {
     return listOf(visited.size)
 }
 
-private fun goOrTurn(map: Array<CharArray>,
+private fun goOrTurn(
+    map: Array<CharArray>,
     nextPos: Pair<Int, Int>,
     currentPos: Pair<Int, Int>,
     nextDirection: Guard,
@@ -49,12 +51,10 @@ private fun goOrTurn(map: Array<CharArray>,
 }
 
 private fun Array<CharArray>.isWall(ij: Pair<Int, Int>) =
-    ij.let { (i, j) -> i in indices && j in this[i].indices && this[i][j] == '#' }
+    ij.let { (i, j) -> inMap(ij) && this[i][j] == '#' }
 
 fun Array<CharArray>.inMap(guardPos: Pair<Int, Int>): Boolean = guardPos
-    .let { (i, j) ->
-        i in indices && j in this[i].indices
-    }
+    .let { (i, j) -> i in indices && j in this[i].indices }
 
 private fun Array<CharArray>.findGuard(): Pair<Pair<Int, Int>, Guard> {
     forEachIndexed { i, row ->
